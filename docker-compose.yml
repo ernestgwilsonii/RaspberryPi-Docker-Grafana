@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+
+  # REF: https://grafana.com/grafana/download/9.0.0-beta3?platform=docker <- Latest beta from June 7, 2022
+  # REF: https://grafana.com/grafana/download/8.5.5?platform=docker <- Current stable
+  grafana:
+    #image: grafana/grafana-enterprise:8.5.5
+    image: grafana/grafana-enterprise:9.0.0-beta3
+    hostname: grafana
+    #environment:
+      # REF: https://grafana.com/docs/grafana/v7.5/administration/configuration/
+      #- GF_SERVER_PROTOCOL=https
+      #- GF_SERVER_CERT_FILE=/var/lib/grafana/grafana.crt
+      #- GF_SERVER_CERT_KEY=/var/lib/grafana/grafana.key
+      #- GF_AUTH_LDAP_ENABLED=true
+      #- GF_AUTH_LDAP_CONFIG_FILE=/var/lib/grafana/ldap.toml
+      #- GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-piechart-panel,percona-percona-app,raintank-kubernetes-app,ntop-ntopng-datasource,natel-plotly-panel,camptocamp-prometheus-alertmanager-datasource,vonage-status-panel,fetzerch-sunandmoon-datasource,radensolutions-netxms-datasource
+    volumes:
+      # - type: bind
+      #   source: /opt/docker/grafana/etc/grafana
+      #   target: /etc/grafana
+      - type: bind
+        source: /opt/docker/grafana/var/lib/grafana
+        target: /var/lib/grafana
+    networks:
+      - grafana-net1
+    ports:
+      - mode: host
+        target: 3000
+        published: 3000
+    deploy:
+      labels:
+        local.description: "Grafana"
+      restart_policy:
+        condition: on-failure
+
+networks:
+  grafana-net1:
