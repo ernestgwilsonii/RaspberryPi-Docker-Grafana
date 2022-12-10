@@ -6,13 +6,6 @@ REF: https://grafana.com/grafana/download/9.3.1?platform=docker <- Latest from D
 
 time docker pull grafana/grafana-enterprise:9.3.1
 
-# To get a tag list, add this bash function
-function list-docker-tags(){
-    wget -q https://registry.hub.docker.com/v1/repositories/$1/tags -O -  | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}' | grep -v ^master
-}
-
-list-docker-tags grafana/grafana-enterprise
-
 
 ##################
 # Manual testing #
